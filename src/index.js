@@ -41,13 +41,16 @@ function decode(expr) {
     let arr = Array.from(expr);
     let arrFive = [];
     let updArr = [];
+    let decodes = [];
+
     for (let i = 0; i < arr.length; i+=2) {
         updArr.push(`${arr[i]}${arr[i+1]}`);
     }
+    // console.log(updArr);
     while(updArr.length) {
         arrFive.push(updArr.splice(0,5));
     }
-    console.log(arrFive);
+
     arrFive.forEach(item => {
         for (let i = 0; i < item.length; i++) {
             let dot = '.',
@@ -56,7 +59,7 @@ function decode(expr) {
                 item[i] = dot;
             } else if (item[i] === '11') {
                 item[i] = dash;
-            } else {
+            } else if (item[i] === '00') {
                 item[i] = '';
             }
         }
@@ -64,6 +67,20 @@ function decode(expr) {
     for (let i = 0; i < arrFive.length; i++) {
         arrFive[i] = arrFive[i].join('');
     }
+    // console.log(arrFive);
+
+    arrFive.forEach (item => {
+        if (item === '**********') {
+            decodes.push(' ')
+        }
+        for (let key in MORSE_TABLE) {
+            if (key === item) {
+                decodes.push(MORSE_TABLE[key]);
+            }
+        }
+    })
+    //console.log(decodes.join(''));
+    return decodes.join('');
 }
 
 module.exports = {
